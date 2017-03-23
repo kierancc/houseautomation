@@ -7,7 +7,7 @@ function DataModel(dataSourceURL) {
         async: false,
         url: context.dataSourceURL
     }).done(function (data) {
-        context.ParseResponse(data);
+        context.parseResponse(data);
     }).fail(function (xhr) {
         alert('ERROR: HTTP GET request for initial data failed!');
     });
@@ -19,7 +19,7 @@ DataModel.prototype.rooms;
 
 // Member functions
 
-DataModel.prototype.ParseResponse = function (responseString) {
+DataModel.prototype.parseResponse = function (responseString) {
     // TODO: Implement reading initial state from response
     // For now, just populate some sample data dynamically
     this.rooms = [];
@@ -32,4 +32,8 @@ DataModel.prototype.ParseResponse = function (responseString) {
 
     // Add "Bedroom"
     this.rooms.push(new Room("Bedroom", false, false, 22));
+};
+
+DataModel.prototype.getRooms = function () {
+    return this.rooms;
 };

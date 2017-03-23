@@ -28,6 +28,7 @@
     <Content Include="script\room.js" />
     <Content Include="script\textViewer.js" />
     <Content Include="style\index.css" />
+    <Content Include="style\textViewer.css" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="style\" />

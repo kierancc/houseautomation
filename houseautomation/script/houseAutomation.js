@@ -10,6 +10,9 @@ var houseAutomation = (function () {
     // The DataModel object
     var dataModel;
 
+    // The Controller object
+    var controller;
+
     // Private functions
 
     // This function loads the initial data
@@ -17,11 +20,29 @@ var houseAutomation = (function () {
         dataModel = new DataModel(DATA_SOURCE_URL);
     };
 
-    // Public functions
+    // This function initializes the Controller
+    var initController = function () {
+        controller = new Controller(dataModel);
+    };
+
+    // This function initializes the default views
+    var initDefaultViews = function () {
+        controller.registerView(new TextViewer(controller));
+    };
+
     return {
+        // Public Variables
+        VIEWER_PLACEHOLDER_ID: "viewerParentDiv",
+
+        SUPPORTED_ATTRIBUTES: { 'LIGHT' : 0, 'CURTAIN' : 1, 'TEMP' : 2 },
+
+        // Public functions
+
         // This function initializes state but does not change the view
         initialize: function () {
             loadInitialData();
+            initController();
+            initDefaultViews();
         },
 
         // This function starts the state machine, including updating the view with current information and components
