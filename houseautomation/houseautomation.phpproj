@@ -8,6 +8,8 @@
     </RootNamespace>
     <ProjectTypeGuids>{A0786B88-2ADB-4C21-ABE8-AA2D79766269}</ProjectTypeGuids>
     <AssemblyName>houseautomation</AssemblyName>
+    <SpecificPageValue>index.html</SpecificPageValue>
+    <StartAction>SpecificPage</StartAction>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <IncludeDebugInformation>true</IncludeDebugInformation>
@@ -15,4 +17,20 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="default.json" />
+    <Content Include="index.html" />
+    <Content Include="script\controller.js" />
+    <Content Include="script\controlPanel.js" />
+    <Content Include="script\dataModel.js" />
+    <Content Include="script\houseAutomation.js" />
+    <Content Include="script\jquery-3.0.0.js" />
+    <Content Include="script\room.js" />
+    <Content Include="script\textViewer.js" />
+    <Content Include="style\index.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="style\" />
+    <Folder Include="script\" />
+  </ItemGroup>
 </Project>
