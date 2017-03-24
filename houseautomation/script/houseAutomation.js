@@ -71,7 +71,12 @@ var houseAutomation = (function () {
         start: function () {
             controller.showDefaultView();
             controller.showControlPanel();
-            alert('application running!'); // TODO remove this. Need an executable line here in order to break in and check state
+        },
+
+        // This function allows a ControlPanel component to change the state of a room
+        updateRoomState: function (roomID, attributeID, value) {
+            controller.updateRoomState(roomID, attributeID, value);
         }
+
     };
 }());

@@ -30,4 +30,4 @@ Room.prototype.setState = function (attributeID, value) {
 
 Room.prototype.getNumAttributes = function () {
     return this.state.length;
-}
+};

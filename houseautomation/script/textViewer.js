@@ -65,7 +65,8 @@ TextViewer.prototype.receiveInitialData = function (initialData) {
 };
 
 TextViewer.prototype.onRoomStateUpdated = function (event) {
-    
+    // Update the field's inner text
+    this.mutableFields[event.roomID][event.attributeID].innerText = event.value;
 };
 
 TextViewer.prototype.show = function () {

@@ -51,5 +51,9 @@ DataModel.prototype.getRooms = function () {
 
 DataModel.prototype.updateRoomState = function (roomID, attributeID, value) {
     // TODO error checking
+
+    // Here is where we would send the new state update back to the server if that was required
+    // We would most likely POST a request to a specific URL running on the server
+    // However, this is not required for this project, so we just simply update our internal model
     this.rooms[roomID].setState(attributeID, value);
 };
