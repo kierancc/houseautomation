@@ -6,6 +6,7 @@
 // Member variables
 Controller.prototype.dataModel;
 Controller.prototype.views;
+Controller.prototype.controlPanel;
 
 // Functions
 Controller.prototype.registerView = function (view) {
@@ -13,6 +14,13 @@ Controller.prototype.registerView = function (view) {
 
     this.views.push(view);
     view.receiveInitialData(this.dataModel.getRooms());
+};
+
+Controller.prototype.registerControlPanel = function (controlPanel) {
+    // TODO Check that all required functions are provided in the view object parameter
+
+    this.controlPanel = controlPanel;
+    controlPanel.receiveInitialData(this.dataModel.getRooms());
 };
 
 Controller.prototype.updateRoomState = function (roomID, attributeID, value) {
@@ -28,4 +36,8 @@ Controller.prototype.updateRoomState = function (roomID, attributeID, value) {
 Controller.prototype.showDefaultView = function () {
     // TODO change this
     this.views[0].show();
+}
+
+Controller.prototype.showControlPanel = function () {
+    this.controlPanel.show();
 }

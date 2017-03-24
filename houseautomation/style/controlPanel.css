@@ -1,0 +1,16 @@
+﻿#controlPanelContainerDiv {
+    display: flex;
+}
+
+.controlPanelRoomHeader {
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+}
+
+.roomDiv {
+    background-color: darkgreen;
+    border-radius: 10px;
+    border-style: solid;
+    padding: 10px;
+}

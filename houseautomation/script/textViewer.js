@@ -3,13 +3,17 @@
 
     // Create the containing DIV for this control and save it
     this.container = document.createElement("div");
-    this.container.id = "textViewerContainerDiv";
+    this.container.id = this.containerID;
     $("#" + houseAutomation.VIEWER_PLACEHOLDER_ID).append(this.container);
 
     this.mutableFields = [];
+
+    // Ensure that the control is hidden after it is created
+    $(this.container).hide();
 }
 
 // Member variables
+TextViewer.prototype.containerID = "textViewerContainerDiv";
 TextViewer.prototype.controller;
 TextViewer.prototype.container;
 TextViewer.prototype.mutableFields;
@@ -65,7 +69,7 @@ TextViewer.prototype.onRoomStateUpdated = function (event) {
 };
 
 TextViewer.prototype.show = function () {
-    $(this.container).fadeIn(500);
+    $(this.container).show();
 };
 
 TextViewer.prototype.hide = function () {

@@ -32,9 +32,15 @@ var houseAutomation = (function () {
         controller.registerView(new TextViewer(controller));
     };
 
+    // This function initializes the control panel
+    var initControlPanel = function () {
+        controller.registerControlPanel(new ControlPanel(controller));
+    };
+
     return {
         // Public Variables
         VIEWER_PLACEHOLDER_ID: "viewerParentDiv",
+        CONTROL_PANEL_PLACEHOLDER_ID: "controlPanelDiv",
 
         SUPPORTED_ATTRIBUTES: SUPPORTED_ATTRIBUTES,
 
@@ -58,11 +64,13 @@ var houseAutomation = (function () {
             loadInitialData();
             initController();
             initDefaultViews();
+            initControlPanel();
         },
 
-        // This function starts the state machine, including updating the view with current information and components
+        // This function starts the state machine, including showing componentes
         start: function () {
             controller.showDefaultView();
+            controller.showControlPanel();
             alert('application running!'); // TODO remove this. Need an executable line here in order to break in and check state
         }
     };

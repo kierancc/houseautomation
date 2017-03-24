@@ -1,3 +1,7 @@
 ﻿body {
     background-color: dimgrey;
 }
+
+#viewerParentDiv {
+    background-color: slategrey;
+}
