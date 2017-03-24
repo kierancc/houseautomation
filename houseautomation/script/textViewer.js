@@ -37,50 +37,31 @@ TextViewer.prototype.receiveInitialData = function (initialData) {
 
         this.mutableFields[i] = [];
 
-        // Lights
-        var lightStateLabel = document.createElement("span");
-        lightStateLabel.innerText = "Light state: ";
-        roomDiv.appendChild(lightStateLabel);
+        var numAttributes = initialData[i].getNumAttributes();
+        for (var j = 0; j < numAttributes; j++)
+        {
+            // Get the friendly name of the attribute
+            var attributeName = houseAutomation.attributeIDToFriendlyName(j);
 
-        var lightState = document.createElement("span");
-        lightState.id = "room" + i + "lightstate";
-        lightState.innerText = initialData[i].getLightState();
-        roomDiv.appendChild(lightState);
+            var stateLabel = document.createElement("span");
+            stateLabel.innerText = attributeName + " state: ";
+            roomDiv.appendChild(stateLabel);
 
-        this.mutableFields[i][houseAutomation.SUPPORTED_ATTRIBUTES.LIGHT] = lightState;
+            var attributeState = document.createElement("span");
+            attributeState.id = "room" + i + attributeName + "State";
+            attributeState.innerText = initialData[i].getState(j);
+            roomDiv.appendChild(attributeState);
+            roomDiv.appendChild(document.createElement("br"));
 
-        roomDiv.appendChild(document.createElement("br"));
-
-        // Curtain
-        var curtainStateLabel = document.createElement("span");
-        curtainStateLabel.innerText = "Curtain state: ";
-        roomDiv.appendChild(curtainStateLabel);
-
-        var curtainState = document.createElement("span");
-        curtainState.id = "room" + i + "curtainstate";
-        curtainState.innerText = initialData[i].getCurtainState();
-        roomDiv.appendChild(curtainState);
-
-        this.mutableFields[i][houseAutomation.SUPPORTED_ATTRIBUTES.CURTAIN] = curtainState;
-
-        roomDiv.appendChild(document.createElement("br"));
-
-        // Temperature
-        var tempStateLabel = document.createElement("span");
-        tempStateLabel.innerText = "Temperature: ";
-        roomDiv.appendChild(tempStateLabel);
-
-        var tempState = document.createElement("span");
-        tempState.id = "room" + i + "temp";
-        tempState.innerText = initialData[i].getTemp();
-        roomDiv.appendChild(tempState);
-
-        this.mutableFields[i][houseAutomation.SUPPORTED_ATTRIBUTES.TEMP] = tempState;
-
-        roomDiv.appendChild(document.createElement("br"));
+            this.mutableFields[i][j] = attributeState;
+        }
 
         this.container.appendChild(roomDiv);
     }
+};
+
+TextViewer.prototype.onRoomStateUpdated = function (event) {
+    
 };
 
 TextViewer.prototype.show = function () {

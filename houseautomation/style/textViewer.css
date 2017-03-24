@@ -1,4 +1,8 @@
-﻿.roomdiv p {
+﻿#textViewerContainerDiv {
+    display: none;
+}
+
+.roomdiv p {
     font-size: large;
     font-weight: bold;
 }

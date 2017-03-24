@@ -26,6 +26,7 @@
     <Content Include="script\houseAutomation.js" />
     <Content Include="script\jquery-3.0.0.js" />
     <Content Include="script\room.js" />
+    <Content Include="script\roomStateUpdatedEvent.js" />
     <Content Include="script\textViewer.js" />
     <Content Include="style\index.css" />
     <Content Include="style\textViewer.css" />

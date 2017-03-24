@@ -14,3 +14,18 @@ Controller.prototype.registerView = function (view) {
     this.views.push(view);
     view.receiveInitialData(this.dataModel.getRooms());
 };
+
+Controller.prototype.updateRoomState = function (roomID, attributeID, value) {
+    // Update the data model
+    this.dataModel.updateRoomState(roomID, attributeID, value);
+
+    // Trigger a RoomStateUpdatedEvent for all registered views
+    for (var i = 0; i < this.views.length; i++) {
+        this.views.onRoomStateUpdated(new RoomStateUpdatedEvent(roomID, attributeID, value));
+    }
+};
+
+Controller.prototype.showDefaultView = function () {
+    // TODO change this
+    this.views[0].show();
+}

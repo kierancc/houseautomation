@@ -1,29 +1,33 @@
-﻿function Room(name, initialLightState, initialCurtainState, initialTemp) {
+﻿function Room(name, initialState) {
     this.name = name;
-    this.lightState = initialLightState;
-    this.curtainState = initialCurtainState;
-    this.temp = initialTemp;
+    this.state = [];
+
+    var context = this;
+    // Iterate over provided initial state and add it
+    Object.keys(initialState).forEach(function (k) {
+        context.state[k] = initialState[k];
+    });
 }
 
 // Member variables
 Room.prototype.name;
-Room.prototype.lightState;
-Room.prototype.curtainState;
-Room.prototype.temp;
+Room.prototype.state;
 
 // Functions
 Room.prototype.getName = function () {
     return this.name;
 };
 
-Room.prototype.getLightState = function () {
-    return this.lightState;
+Room.prototype.getState = function (attributeID) {
+    // TODO Check valid key
+    return this.state[attributeID];
 };
 
-Room.prototype.getCurtainState = function () {
-    return this.curtainState;
+Room.prototype.setState = function (attributeID, value) {
+    // TODO check validity of input
+    this.state[attributeID] = value;
 };
 
-Room.prototype.getTemp = function () {
-    return this.temp;
-};
+Room.prototype.getNumAttributes = function () {
+    return this.state.length;
+}

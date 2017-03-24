@@ -25,15 +25,31 @@ DataModel.prototype.parseResponse = function (responseString) {
     this.rooms = [];
 
     // Add "Living Room"
-    this.rooms.push(new Room("Living Room", true, true, 20));
+    this.rooms.push(new Room("Living Room", [
+        true,
+        true,
+        20
+    ]));
 
     // Add "Kitchen"
-    this.rooms.push(new Room("Kitchen", true, false, 19));
+    this.rooms.push(new Room("Kitchen", [
+        true,
+        false,
+        19
+    ]));
 
     // Add "Bedroom"
-    this.rooms.push(new Room("Bedroom", false, false, 22));
+    this.rooms.push(new Room("Bedroom", [
+        false,
+        false,
+        22]));
 };
 
 DataModel.prototype.getRooms = function () {
     return this.rooms;
+};
+
+DataModel.prototype.updateRoomState = function (roomID, attributeID, value) {
+    // TODO error checking
+    this.rooms[roomID].setState(attributeID, value);
 };
