@@ -37,12 +37,35 @@ var houseAutomation = (function () {
 
     // This function initializes the default views
     var initDefaultViews = function () {
+        // Add the TextViewer
         controller.registerView(new TextViewer(controller));
+
+        // Add the options to the viewer selector
+        // Ensure that these are added in the same order as the views were registered above
+
+        // Add a viewer selection option for the TextViewer
+        var textViewerOption = document.createElement("option");
+        textViewerOption.text = "Text Viewer";
+        $('#viewerSelector').append(textViewerOption);
+
+        // Add a viewer selection option for the GraphicalViewer
+        var graphicalViewerOption = document.createElement("option");
+        graphicalViewerOption.text = "Graphical Viewer";
+        $('#viewerSelector').append(graphicalViewerOption);
     };
 
     // This function initializes the control panel
     var initControlPanel = function () {
         controller.registerControlPanel(new ControlPanel(controller));
+    };
+
+    // This function populates and initializes the view select menu
+    var initViewSelector = function () {
+        $('#viewerSelector').selectmenu({
+            change: function (event, ui) {
+                controller.changeView(ui.item.index);
+            }
+        });
     };
 
     return {
@@ -65,6 +88,7 @@ var houseAutomation = (function () {
             initComponents();
             initDefaultViews();
             initControlPanel();
+            initViewSelector();
         },
 
         // This function starts the state machine, including showing componentes

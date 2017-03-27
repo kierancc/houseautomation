@@ -45,8 +45,18 @@ Controller.prototype.updateRoomState = function (roomID, componentName, value) {
 };
 
 Controller.prototype.showDefaultView = function () {
-    // TODO change this
-    this.views[0].show();
+    this.views[0].show(); // The default view is the view that was first added
+};
+
+Controller.prototype.changeView = function (viewID) {
+    for (var i = 0; i < this.views.length; i++) {
+        if (i === viewID) {
+            this.views[i].show();
+        }
+        else {
+            this.views[i].hide();
+        }
+    }
 };
 
 Controller.prototype.showControlPanel = function () {
