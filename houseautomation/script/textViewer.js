@@ -41,29 +41,26 @@ TextViewer.prototype.receiveInitialData = function (initialData) {
 
         this.mutableFields[i] = [];
 
-        var numAttributes = initialData[i].getNumAttributes();
+        // Iterate over all components that control this room
+        var numComponents = initialData[i].getNumSupportedComponents();
+        var components = initialData[i].getSupportedComponents();
 
-        for (var j = 0; j < numAttributes; j++)
+        for (var j = 0; j < numComponents; j++)
         {
-            // If this attribute is not defined for this room, continue
-            if (initialData[i].getState(j) === undefined) {
-                continue;
-            }
-
-            // Get the friendly name of the attribute
-            var attributeName = this.controller.attributeIDToFriendlyName(j);
+            // Get the friendly name of the component
+            var componentName = components[j];
 
             var stateLabel = document.createElement("span");
-            stateLabel.innerText = attributeName + " state: ";
+            stateLabel.innerText = componentName + " state: ";
             roomDiv.appendChild(stateLabel);
 
-            var attributeState = document.createElement("span");
-            attributeState.id = "room" + i + attributeName + "State";
-            attributeState.innerText = initialData[i].getState(j);
-            roomDiv.appendChild(attributeState);
+            var componentState = document.createElement("span");
+            componentState.id = "room" + i + componentName + "State";
+            componentState.innerText = initialData[i].getState(componentName);
+            roomDiv.appendChild(componentState);
             roomDiv.appendChild(document.createElement("br"));
 
-            this.mutableFields[i][j] = attributeState;
+            this.mutableFields[i][componentName] = componentState;
         }
 
         this.container.appendChild(roomDiv);
@@ -72,7 +69,7 @@ TextViewer.prototype.receiveInitialData = function (initialData) {
 
 TextViewer.prototype.onRoomStateUpdated = function (event) {
     // Update the field's inner text
-    this.mutableFields[event.roomID][event.attributeID].innerText = event.value;
+    this.mutableFields[event.roomID][event.componentName].innerText = event.value;
 };
 
 TextViewer.prototype.show = function () {

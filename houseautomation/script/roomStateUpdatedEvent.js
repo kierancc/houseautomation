@@ -1,10 +1,10 @@
-﻿function RoomStateUpdatedEvent(roomID, attributeID, value) {
+﻿function RoomStateUpdatedEvent(roomID, componentName, value) {
     this.roomID = roomID;
-    this.attributeID = attributeID;
+    this.componentName = componentName;
     this.value = value;
 }
 
 // Member variables
 RoomStateUpdatedEvent.prototype.roomID;
-RoomStateUpdatedEvent.prototype.attributeID;
+RoomStateUpdatedEvent.prototype.componentName;
 RoomStateUpdatedEvent.prototype.value;

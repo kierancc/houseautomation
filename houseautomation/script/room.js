@@ -18,16 +18,20 @@ Room.prototype.getName = function () {
     return this.name;
 };
 
-Room.prototype.getState = function (attributeID) {
+Room.prototype.getState = function (componentName) {
     // TODO Check valid key
-    return this.state[attributeID];
+    return this.state[componentName];
 };
 
-Room.prototype.setState = function (attributeID, value) {
+Room.prototype.setState = function (componentName, value) {
     // TODO check validity of input
-    this.state[attributeID] = value;
+    this.state[componentName] = value;
 };
 
-Room.prototype.getNumAttributes = function () {
-    return this.state.length;
+Room.prototype.getNumSupportedComponents = function () {
+    return Object.keys(this.state).length;
+};
+
+Room.prototype.getSupportedComponents = function () {
+    return Object.keys(this.state);
 };

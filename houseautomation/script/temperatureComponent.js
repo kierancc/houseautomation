@@ -1,17 +1,12 @@
-﻿function TemperatureComponent(componentID) {
-    this.id = componentID;
+﻿function TemperatureComponent() {
     this.controlledRooms = [];
 }
 
 // Member variables
-TemperatureComponent.prototype.id;
-TemperatureComponent.prototype.friendlyName = "TEMPERATURE";
+TemperatureComponent.prototype.friendlyName = "TEMP";
 TemperatureComponent.prototype.controlledRooms;
 
 // Functions
-TemperatureComponent.prototype.getID = function () {
-    return this.id
-};
 
 TemperatureComponent.prototype.getFriendlyName = function () {
     return this.friendlyName;
@@ -31,14 +26,14 @@ TemperatureComponent.prototype.createControlPanelItem = function (roomID, initia
 
     // Build the control that modifies the value
     var item = document.createElement("input");
-    item.id = "ControlPanelItemRoom" + roomID + "Attribute" + this.id;
+    item.id = "ControlPanelItemRoom" + roomID + "Component" + this.friendlyName;
     item.className = "tempSpinnerInput";
     item.type = "text";
     item.value = initialValue;
 
     // Save the identifying data to this element for consumption in any event handlers
     $(item).data("roomID", roomID);
-    $(item).data("attributeID", this.id);
+    $(item).data("componentName", this.friendlyName);
 
     // Append the control to the parent
     // Note that this must be called before initializing the spinner
@@ -49,9 +44,9 @@ TemperatureComponent.prototype.createControlPanelItem = function (roomID, initia
         classes: { "ui-spinner": "tempSpinnerContainer" },
         stop: function (event, ui) {
             var roomID = $(this).data("roomID");
-            var attributeID = $(this).data("attributeID");
+            var componentName = $(this).data("componentName");
 
-            houseAutomation.updateRoomState(roomID, attributeID, this.value);
+            houseAutomation.updateRoomState(roomID, componentName, this.value);
         }
     });
 

@@ -19,7 +19,12 @@ Controller.prototype.registerView = function (view) {
 };
 
 Controller.prototype.registerComponent = function (component) {
-    this.components.push(component);
+    // Ensure that the friendly name of the component is unique
+    if (this.components[component.getFriendlyName()] !== undefined) {
+        throw "Duplicate Component : " + component.getFriendlyName();
+    }
+
+    this.components[component.getFriendlyName()] = component;
 };
 
 Controller.prototype.registerControlPanel = function (controlPanel) {
@@ -29,13 +34,13 @@ Controller.prototype.registerControlPanel = function (controlPanel) {
     controlPanel.receiveInitialData(this.dataModel.getRooms());
 };
 
-Controller.prototype.updateRoomState = function (roomID, attributeID, value) {
+Controller.prototype.updateRoomState = function (roomID, componentName, value) {
     // Update the data model
-    this.dataModel.updateRoomState(roomID, attributeID, value);
+    this.dataModel.updateRoomState(roomID, componentName, value);
 
     // Trigger a RoomStateUpdatedEvent for all registered views
     for (var i = 0; i < this.views.length; i++) {
-        this.views[i].onRoomStateUpdated(new RoomStateUpdatedEvent(roomID, attributeID, value));
+        this.views[i].onRoomStateUpdated(new RoomStateUpdatedEvent(roomID, componentName, value));
     }
 };
 
@@ -48,11 +53,6 @@ Controller.prototype.showControlPanel = function () {
     this.controlPanel.show();
 };
 
-Controller.prototype.attributeIDToFriendlyName = function (attributeID) {
-    // TODO check validity of parameter
-    return this.components[attributeID].getFriendlyName();
-};
-
-Controller.prototype.createComponentControlPanelItem = function (roomID, componentID, initialValue) {
-    return this.components[componentID].createControlPanelItem(roomID, initialValue);
+Controller.prototype.createComponentControlPanelItem = function (roomID, componentName, initialValue) {
+    return this.components[componentName].createControlPanelItem(roomID, initialValue);
 };

@@ -1,17 +1,12 @@
-﻿function LightComponent(componentID) {
-    this.id = componentID;
+﻿function LightComponent() {
     this.controlledRooms = [];
 }
 
 // Member variables
-LightComponent.prototype.id;
 LightComponent.prototype.friendlyName = "LIGHT";
 LightComponent.prototype.controlledRooms;
 
 // Functions
-LightComponent.prototype.getID = function () {
-    return this.id
-};
 
 LightComponent.prototype.getFriendlyName = function () {
     return this.friendlyName;
@@ -35,12 +30,12 @@ LightComponent.prototype.createControlPanelItem = function (roomID, initialValue
     var initialState = initialValue ? 1 : 0;
 
     var item = document.createElement("div");
-    item.id = "ControlPanelItemRoom" + roomID + "Attribute" + this.id;
+    item.id = "ControlPanelItemRoom" + roomID + "Component" + this.friendlyName;
     item.className = "toggleDiv";
 
     // Save the identifying data to this element for consumption in any event handlers
     $(item).data("roomID", roomID);
-    $(item).data("attributeID", this.id);
+    $(item).data("componentName", this.friendlyName);
 
     $(item).slider({
         orientation: "horizontal",
@@ -50,11 +45,11 @@ LightComponent.prototype.createControlPanelItem = function (roomID, initialValue
         value: initialState,
         slide: function (event, ui) {
             // Convert value (int -> bool)
-            var updatedState = ui.value == 1 ? true : false;
+            var updatedState = ui.value === 1 ? true : false;
             var roomID = $(this).data("roomID");
-            var attributeID = $(this).data("attributeID");
+            var componentName = $(this).data("componentName");
 
-            houseAutomation.updateRoomState(roomID, attributeID, updatedState);
+            houseAutomation.updateRoomState(roomID, componentName, updatedState);
         }
     });
 

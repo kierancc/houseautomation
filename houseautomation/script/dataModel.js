@@ -25,35 +25,36 @@ DataModel.prototype.parseResponse = function (responseString) {
     this.rooms = [];
 
     // Add "Living Room"
-    this.rooms.push(new Room("Living Room", [
-        true,
-        true,
-        20
-    ]));
+    this.rooms.push(new Room("Living Room", {
+        'LIGHT' : true,
+        'CURTAIN' : true,
+        'TEMP' : 20
+    }));
 
     // Add "Kitchen"
-    this.rooms.push(new Room("Kitchen", [
-        true,
-        false,
-        19
-    ]));
+    this.rooms.push(new Room("Kitchen", {
+        'LIGHT' : true,
+        'CURTAIN' : false,
+        'TEMP' : 19
+    }));
 
     // Add "Bedroom"
-    this.rooms.push(new Room("Bedroom", [
-        false,
-        false,
-        22]));
+    this.rooms.push(new Room("Bedroom", {
+        'LIGHT': false,
+        'CURTAIN': false,
+        'TEMP': 22
+    }));
 };
 
 DataModel.prototype.getRooms = function () {
     return this.rooms;
 };
 
-DataModel.prototype.updateRoomState = function (roomID, attributeID, value) {
+DataModel.prototype.updateRoomState = function (roomID, componentName, value) {
     // TODO error checking
 
     // Here is where we would send the new state update back to the server if that was required
     // We would most likely POST a request to a specific URL running on the server
     // However, this is not required for this project, so we just simply update our internal model
-    this.rooms[roomID].setState(attributeID, value);
+    this.rooms[roomID].setState(componentName, value);
 };

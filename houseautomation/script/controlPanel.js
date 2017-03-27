@@ -31,15 +31,16 @@ ControlPanel.prototype.receiveInitialData = function (initialData) {
         roomHeader.innerText = initialData[i].getName();
         roomDiv.appendChild(roomHeader);
 
-        var numAttributes = initialData[i].getNumAttributes();
+        // Iterate over all components that control this room
+        var numComponents = initialData[i].getNumSupportedComponents();
+        var components = initialData[i].getSupportedComponents();
 
-        for (var j = 0; j < numAttributes; j++) {
-            // If this attribute is not defined for this room, continue
-            if (initialData[i].getState(j) === undefined) {
-                continue;
-            }
+        for (var j = 0; j < numComponents; j++) {
 
-            var item = this.controller.createComponentControlPanelItem(i, j, initialData[i].getState(j));
+            // Get the friendly name of the component
+            var componentName = components[j];
+
+            var item = this.controller.createComponentControlPanelItem(i, componentName, initialData[i].getState(componentName));
             roomDiv.appendChild(item);
         }
                 

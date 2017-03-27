@@ -7,8 +7,6 @@ var houseAutomation = (function () {
     // (really just a .json file for this exercise)
     var DATA_SOURCE_URL = "../default.json";
 
-    var SUPPORTED_ATTRIBUTES = {};
-
     // The DataModel object
     var dataModel;
 
@@ -52,15 +50,10 @@ var houseAutomation = (function () {
         VIEWER_PLACEHOLDER_ID: "viewerParentDiv",
         CONTROL_PANEL_PLACEHOLDER_ID: "controlPanelDiv",
 
-        SUPPORTED_ATTRIBUTES: SUPPORTED_ATTRIBUTES,
-
         // Public functions
 
         // This function registers any Component objects that will be used in the house automation system
         registerComponent: function (component) {
-            // Save the mapping between the component ID and the component
-            SUPPORTED_ATTRIBUTES[component.getFriendlyName()] = component.getID();
-
             // Save the component
             components.push(component);
         },
@@ -81,8 +74,8 @@ var houseAutomation = (function () {
         },
 
         // This function allows a ControlPanel component to change the state of a room
-        updateRoomState: function (roomID, attributeID, value) {
-            controller.updateRoomState(roomID, attributeID, value);
+        updateRoomState: function (roomID, componentName, value) {
+            controller.updateRoomState(roomID, componentName, value);
         }
 
     };

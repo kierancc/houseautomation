@@ -37,12 +37,12 @@
         $(document).ready(function () {
             // Register all automation components
             // To add a new component, simply append it to the bottom of this list
-            // providing a sequential ID number
             // You must ensure that your new component implements all of the necessary functions
+            // and has a unique friendly name
             // (see documentation)
-            houseAutomation.registerComponent(new LightComponent(0));
-            houseAutomation.registerComponent(new CurtainComponent(1));
-            houseAutomation.registerComponent(new TemperatureComponent(2));
+            houseAutomation.registerComponent(new LightComponent());
+            houseAutomation.registerComponent(new CurtainComponent());
+            houseAutomation.registerComponent(new TemperatureComponent());
 
             // Initialize the system
             houseAutomation.initialize();
