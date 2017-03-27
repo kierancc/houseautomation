@@ -1,6 +1,6 @@
 ﻿function Room(name, initialState) {
     this.name = name;
-    this.state = [];
+    this.state = new Object();
 
     var context = this;
     // Iterate over provided initial state and add it

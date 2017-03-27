@@ -1,3 +1,26 @@
-﻿{
-  "key" :  "value"
-}
+﻿[
+  {
+    "name": "Living Room",
+    "state": {
+      "LIGHT": true,
+      "CURTAIN": true,
+      "TEMP": 20
+    }
+  },
+  {
+    "name": "Kitchen",
+    "state": {
+      "LIGHT": true,
+      "CURTAIN": false,
+      "TEMP": 19
+    }
+  },
+  {
+    "name": "Bedroom",
+    "state": {
+      "LIGHT": false,
+      "CURTAIN": false,
+      "TEMP": 22
+    }
+  }
+]

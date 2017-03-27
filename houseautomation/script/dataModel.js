@@ -1,6 +1,7 @@
 ﻿// Constructor
 function DataModel(dataSourceURL) {
     this.dataSourceURL = dataSourceURL;
+    this.rooms = [];
     var context = this;
 
     $.ajax({
@@ -11,7 +12,7 @@ function DataModel(dataSourceURL) {
     }).fail(function (xhr) {
         alert('ERROR: HTTP GET request for initial data failed!');
     });
-}
+}   
 
 // Member variables
 DataModel.prototype.dataSourceURL;
@@ -20,30 +21,14 @@ DataModel.prototype.rooms;
 // Member functions
 
 DataModel.prototype.parseResponse = function (responseString) {
-    // TODO: Implement reading initial state from response
-    // For now, just populate some sample data dynamically
-    this.rooms = [];
+    // Parse the loaded JSON into Room objects that contain state only (i.e. no function definitions)
+    var parsedRooms = JSON.parse(responseString);
 
-    // Add "Living Room"
-    this.rooms.push(new Room("Living Room", {
-        'LIGHT' : true,
-        'CURTAIN' : true,
-        'TEMP' : 20
-    }));
-
-    // Add "Kitchen"
-    this.rooms.push(new Room("Kitchen", {
-        'LIGHT' : true,
-        'CURTAIN' : false,
-        'TEMP' : 19
-    }));
-
-    // Add "Bedroom"
-    this.rooms.push(new Room("Bedroom", {
-        'LIGHT': false,
-        'CURTAIN': false,
-        'TEMP': 22
-    }));
+    // Recreate the Room objects based on the parsed Room objects, so that they
+    // have the expected functions defined
+    for (var i = 0; i < parsedRooms.length; i++) {
+        this.rooms.push(new Room(parsedRooms[i].name, parsedRooms[i].state));
+    }
 };
 
 DataModel.prototype.getRooms = function () {
