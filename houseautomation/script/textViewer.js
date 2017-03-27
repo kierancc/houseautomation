@@ -42,10 +42,16 @@ TextViewer.prototype.receiveInitialData = function (initialData) {
         this.mutableFields[i] = [];
 
         var numAttributes = initialData[i].getNumAttributes();
+
         for (var j = 0; j < numAttributes; j++)
         {
+            // If this attribute is not defined for this room, continue
+            if (initialData[i].getState(j) === undefined) {
+                continue;
+            }
+
             // Get the friendly name of the attribute
-            var attributeName = houseAutomation.attributeIDToFriendlyName(j);
+            var attributeName = this.controller.attributeIDToFriendlyName(j);
 
             var stateLabel = document.createElement("span");
             stateLabel.innerText = attributeName + " state: ";

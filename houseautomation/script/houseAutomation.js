@@ -7,13 +7,16 @@ var houseAutomation = (function () {
     // (really just a .json file for this exercise)
     var DATA_SOURCE_URL = "../default.json";
 
-    var SUPPORTED_ATTRIBUTES = { 'LIGHT': 0, 'CURTAIN': 1, 'TEMP': 2 };
+    var SUPPORTED_ATTRIBUTES = {};
 
     // The DataModel object
     var dataModel;
 
     // The Controller object
     var controller;
+
+    // Automation components
+    var components = [];
 
     // Private functions
 
@@ -25,6 +28,13 @@ var houseAutomation = (function () {
     // This function initializes the Controller
     var initController = function () {
         controller = new Controller(dataModel);
+    };
+
+    // This function initializes the automation components
+    var initComponents = function () {
+        for (var i = 0; i < components.length; i++) {
+            controller.registerComponent(components[i]);
+        }
     };
 
     // This function initializes the default views
@@ -45,24 +55,21 @@ var houseAutomation = (function () {
         SUPPORTED_ATTRIBUTES: SUPPORTED_ATTRIBUTES,
 
         // Public functions
-        // Converts an attribue ID int to a printable string
-        attributeIDToFriendlyName: function (attributeID) {
-            switch (attributeID) {
-                case SUPPORTED_ATTRIBUTES.LIGHT:
-                    return "Light";
-                case SUPPORTED_ATTRIBUTES.CURTAIN:
-                    return "Curtain";
-                case SUPPORTED_ATTRIBUTES.TEMP:
-                    return "Temp";
-                default:
-                    return "Invalid attribute ID!";
-            }
+
+        // This function registers any Component objects that will be used in the house automation system
+        registerComponent: function (component) {
+            // Save the mapping between the component ID and the component
+            SUPPORTED_ATTRIBUTES[component.getFriendlyName()] = component.getID();
+
+            // Save the component
+            components.push(component);
         },
 
         // This function initializes state but does not change the view
         initialize: function () {
             loadInitialData();
             initController();
+            initComponents();
             initDefaultViews();
             initControlPanel();
         },

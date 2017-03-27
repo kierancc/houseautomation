@@ -32,12 +32,17 @@ ControlPanel.prototype.receiveInitialData = function (initialData) {
         roomDiv.appendChild(roomHeader);
 
         var numAttributes = initialData[i].getNumAttributes();
+
         for (var j = 0; j < numAttributes; j++) {
-            var item = CreateControlPanelItem(i, j, initialData[i].getState(j));
+            // If this attribute is not defined for this room, continue
+            if (initialData[i].getState(j) === undefined) {
+                continue;
+            }
+
+            var item = this.controller.createComponentControlPanelItem(i, j, initialData[i].getState(j));
             roomDiv.appendChild(item);
         }
-
-        
+                
         this.container.appendChild(roomDiv);
     }
 

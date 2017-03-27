@@ -1,11 +1,13 @@
 ﻿function Controller(dataModel) {
     this.dataModel = dataModel;
     this.views = [];
+    this.components = [];
 }
 
 // Member variables
 Controller.prototype.dataModel;
 Controller.prototype.views;
+Controller.prototype.components;
 Controller.prototype.controlPanel;
 
 // Functions
@@ -14,6 +16,10 @@ Controller.prototype.registerView = function (view) {
 
     this.views.push(view);
     view.receiveInitialData(this.dataModel.getRooms());
+};
+
+Controller.prototype.registerComponent = function (component) {
+    this.components.push(component);
 };
 
 Controller.prototype.registerControlPanel = function (controlPanel) {
@@ -40,4 +46,13 @@ Controller.prototype.showDefaultView = function () {
 
 Controller.prototype.showControlPanel = function () {
     this.controlPanel.show();
+};
+
+Controller.prototype.attributeIDToFriendlyName = function (attributeID) {
+    // TODO check validity of parameter
+    return this.components[attributeID].getFriendlyName();
+};
+
+Controller.prototype.createComponentControlPanelItem = function (roomID, componentID, initialValue) {
+    return this.components[componentID].createControlPanelItem(roomID, initialValue);
 };

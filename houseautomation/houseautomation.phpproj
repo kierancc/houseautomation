@@ -22,13 +22,15 @@
     <Content Include="index.html" />
     <Content Include="script\controller.js" />
     <Content Include="script\controlPanel.js" />
-    <Content Include="script\controlPanelItem.js" />
+    <Content Include="script\CurtainComponent.js" />
     <Content Include="script\dataModel.js" />
     <Content Include="script\houseAutomation.js" />
     <Content Include="script\jquery-3.0.0.js" />
     <Content Include="script\jquery-ui.js" />
+    <Content Include="script\LightComponent.js" />
     <Content Include="script\room.js" />
     <Content Include="script\roomStateUpdatedEvent.js" />
+    <Content Include="script\temperatureComponent.js" />
     <Content Include="script\textViewer.js" />
     <Content Include="style\controlPanel.css" />
     <Content Include="style\images\ui-icons_444444_256x240.png" />
