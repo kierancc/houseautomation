@@ -26,15 +26,24 @@
     <Content Include="script\dataModel.js" />
     <Content Include="script\houseAutomation.js" />
     <Content Include="script\jquery-3.0.0.js" />
+    <Content Include="script\jquery-ui.js" />
     <Content Include="script\room.js" />
     <Content Include="script\roomStateUpdatedEvent.js" />
     <Content Include="script\textViewer.js" />
     <Content Include="style\controlPanel.css" />
+    <Content Include="style\images\ui-icons_444444_256x240.png" />
+    <Content Include="style\images\ui-icons_555555_256x240.png" />
+    <Content Include="style\images\ui-icons_777620_256x240.png" />
+    <Content Include="style\images\ui-icons_777777_256x240.png" />
+    <Content Include="style\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="style\images\ui-icons_ffffff_256x240.png" />
     <Content Include="style\index.css" />
+    <Content Include="style\jquery-ui.min.css" />
     <Content Include="style\textViewer.css" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="style\" />
     <Folder Include="script\" />
+    <Folder Include="style\images\" />
   </ItemGroup>
 </Project>

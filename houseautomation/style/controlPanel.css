@@ -12,5 +12,24 @@
     background-color: darkgreen;
     border-radius: 10px;
     border-style: solid;
-    padding: 10px;
+    padding-left: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+}
+
+.toggleDiv {
+    float: right;
+    width: 100px;
+}
+
+.tempSpinnerContainer {
+    float: right;
+}
+
+.tempSpinnerInput {
+    width: 50px;
+}
+
+.controlPanelItemLabel {
+    padding-right: 15px;
 }
