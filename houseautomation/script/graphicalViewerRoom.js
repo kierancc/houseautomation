@@ -31,7 +31,8 @@ GraphicalViewerRoom.prototype.componentDrawingFunctions;
 
 // Functions
 GraphicalViewerRoom.prototype.drawFull = function (context) {
-    // Draw outline of room
+    // Draw outline of room and fill with the default wall colour (already set)
+    context.fillRect(this.originX, this.originY, this.width, this.height);
     context.strokeRect(this.originX, this.originY, this.width, this.height);
 
     // Draw outline of window
@@ -44,6 +45,9 @@ GraphicalViewerRoom.prototype.drawFull = function (context) {
 GraphicalViewerRoom.prototype.drawWindow = function (context) {
     var originalLineWidth = context.lineWidth;
     context.lineWidth = this.windowStrokeWidth;
+
+    // Clear rectangle first to ensure white background
+    context.clearRect(this.windowOriginX, this.windowOriginY, this.windowWidth, this.windowHeight);
     context.strokeRect(this.windowOriginX, this.windowOriginY, this.windowWidth, this.windowHeight);
     context.lineWidth = originalLineWidth;
 };

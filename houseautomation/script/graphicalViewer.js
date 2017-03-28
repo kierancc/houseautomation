@@ -29,7 +29,7 @@ GraphicalViewer.prototype.containerID = "grahpicalViewerContainerDiv";
 GraphicalViewer.prototype.controller;
 GraphicalViewer.prototype.container;
 GraphicalViewer.prototype.houseDimensions = { 'WIDTH': 0.8, 'HEIGHT': 0.6 };
-GraphicalViewer.prototype.drawing = { 'LINEWIDTH': 5 };
+GraphicalViewer.prototype.drawing = { 'LINEWIDTH': 5, 'WALLCOLOUR': "#3399FF", 'LINECOLOUR' : "black", 'ROOFCOLOUR' : "#330D00" };
 GraphicalViewer.prototype.graphicalViewerRooms;
 
 // Functions
@@ -64,10 +64,13 @@ GraphicalViewer.prototype.receiveInitialData = function (initialData) {
     // [6][7]...
     // [3][4][5]
     // [0][1][2]
-    this.context.lineWidth = this.drawing.LINEWIDTH;
-    this.context.fillStyle = "blue";
 
-    this.context.translate(marginX / -2, marginY / 2); // Shift everything down by half of the vertical margin, and left by half the horizontal margin
+    // Set the default context values
+    this.context.lineWidth = this.drawing.LINEWIDTH;
+    this.context.fillStyle = this.drawing.WALLCOLOUR;
+    this.context.strokeStyle = this.drawing.LINECOLOUR;
+
+    this.context.translate(0, marginY / 2); // Shift everything down by half of the vertical margin
 
     var roomCounter = 0;
 
@@ -126,13 +129,34 @@ GraphicalViewer.prototype.receiveInitialData = function (initialData) {
         }
         // Draw the extra rooms differently
         else {
-            var halfLineWidth = this.drawing.LINEWIDTH / 2;
-            this.context.fillRect(originX + halfLineWidth, marginY - halfLineWidth, roomWidth, roomHeight);
+            this.context.fillRect(originX, marginY, roomWidth, roomHeight);
+            this.context.strokeRect(originX, marginY, roomWidth, roomHeight);
         }
 
         // Increment the roomCounter
         roomCounter++;
     }
+
+    // Finally draw the roof
+    var roofStartX = marginX;
+    var roofStartY = marginY;
+    var roofMidpointX = roofStartX + (roomsPerFloor * roomWidth / 2);
+    var roofMidpointY = roofStartY - (numTotalFloors * roomHeight * 0.4);
+    var roofEndX = roofStartX + roomsPerFloor * roomWidth;
+    var roofEndY = roofStartY;
+
+    var originalFillStyle = this.context.fillStyle;
+    this.context.fillStyle = this.drawing.ROOFCOLOUR;
+
+    this.context.beginPath();
+    this.context.moveTo(roofStartX, roofStartY);
+    this.context.lineTo(roofMidpointX, roofMidpointY);
+    this.context.lineTo(roofEndX, roofEndY);
+    this.context.closePath();
+    this.context.fill();
+    this.context.stroke();
+
+    this.context.fillStyle = originalFillStyle;
 };
 
 GraphicalViewer.prototype.onRoomStateUpdated = function (event) {
