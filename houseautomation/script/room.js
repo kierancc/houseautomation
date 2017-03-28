@@ -19,12 +19,18 @@ Room.prototype.getName = function () {
 };
 
 Room.prototype.getState = function (componentName) {
-    // TODO Check valid key
+    if (this.state[componentName] === undefined) {
+        throw "Invalid component name : " + componentName;
+    }
+
     return this.state[componentName];
 };
 
 Room.prototype.setState = function (componentName, value) {
-    // TODO check validity of input
+    if (this.state[componentName] === undefined) {
+        throw "Invalid component name : " + componentName;
+    }
+
     this.state[componentName] = value;
 };
 

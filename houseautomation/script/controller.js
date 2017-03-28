@@ -12,14 +12,41 @@ Controller.prototype.controlPanel;
 
 // Functions
 Controller.prototype.registerView = function (view) {
-    // TODO Check that all required functions are provided in the view object parameter
+    // Ensure required functions exist
+    if (typeof view.receiveInitialData !== "function") {
+        throw "Function 'receiveInitialData' not implemented by provided view";
+    }
+    else if (typeof view.onRoomStateUpdated !== "function") {
+        throw "Function 'onRoomStateUpdated' not implemented by provided view";
+    }
+    else if (typeof view.show !== "function") {
+        throw "Function 'show' not implemented by provided view";
+    }
+    else if (typeof view.hide !== "function") {
+        throw "Function 'hide' not implemented by provided view";
+    }
 
     this.views.push(view);
     view.receiveInitialData(this.dataModel.getRooms());
 };
 
 Controller.prototype.registerComponent = function (component) {
-    // TODO Check that all required functions are provided in the view object parameter
+    // Ensure required functions exist
+    if (typeof component.onRoomStateUpdated !== "function") {
+        throw "Function 'onRoomStateUpdated' not implemented by provided component";
+    }
+    else if (typeof component.getFriendlyName !== "function") {
+        throw "Function 'getFriendlyName' not implemented by provided component";
+    }
+    else if (typeof component.drawGraphicalState !== "function") {
+        throw "Function 'drawGraphicalState' not implemented by provided component";
+    }
+    else if (typeof component.createControlPanelItem !== "function") {
+        throw "Function 'createControlPanelItem' not implemented by provided component";
+    }
+    else if (typeof component.addControlledRoom !== "function") {
+        throw "Function 'addControlledRoom' not implemented by provided component";
+    }
 
     // Ensure that the friendly name of the component is unique
     if (this.components[component.getFriendlyName()] !== undefined) {
@@ -30,7 +57,16 @@ Controller.prototype.registerComponent = function (component) {
 };
 
 Controller.prototype.registerControlPanel = function (controlPanel) {
-    // TODO Check that all required functions are provided in the view object parameter
+    // Ensure required functions exist
+    if (typeof controlPanel.receiveInitialData !== "function") {
+        throw "Function 'receiveInitialData' not implemented by provided controlPanel";
+    }
+    else if (typeof controlPanel.show !== "function") {
+        throw "Function 'show' not implemented by provided controlPanel";
+    }
+    else if (typeof controlPanel.hide !== "function") {
+        throw "Function 'hide' not implemented by provided controlPanel";
+    }
 
     this.controlPanel = controlPanel;
     controlPanel.receiveInitialData(this.dataModel.getRooms());

@@ -104,6 +104,5 @@ var houseAutomation = (function () {
         updateRoomState: function (roomID, componentName, value) {
             controller.updateRoomState(roomID, componentName, value);
         }
-
     };
 }());
