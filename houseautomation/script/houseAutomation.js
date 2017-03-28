@@ -40,6 +40,9 @@ var houseAutomation = (function () {
         // Add the TextViewer
         controller.registerView(new TextViewer(controller));
 
+        // Add the GraphicalViewer
+        controller.registerView(new GraphicalViewer(controller));
+
         // Add the options to the viewer selector
         // Ensure that these are added in the same order as the views were registered above
 
