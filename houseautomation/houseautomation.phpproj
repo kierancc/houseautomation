@@ -25,7 +25,7 @@
     <Content Include="script\CurtainComponent.js" />
     <Content Include="script\dataModel.js" />
     <Content Include="script\graphicalViewer.js" />
-    <Content Include="script\graphiicalViewerRoom.js" />
+    <Content Include="script\graphicalViewerRoom.js" />
     <Content Include="script\houseAutomation.js" />
     <Content Include="script\jquery-3.0.0.js" />
     <Content Include="script\jquery-ui.js" />

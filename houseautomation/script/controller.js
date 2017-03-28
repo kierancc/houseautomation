@@ -38,6 +38,11 @@ Controller.prototype.updateRoomState = function (roomID, componentName, value) {
     // Update the data model
     this.dataModel.updateRoomState(roomID, componentName, value);
 
+    // Trigger a RoomStateUpdatedEvent for all rgistered Components
+    for (var i = 0; i < this.components.length; i++) {
+        this.components[i].onRoomStateUpdated(new RoomStateUpdatedEvent(roomID, componentName, value));
+    }
+
     // Trigger a RoomStateUpdatedEvent for all registered views
     for (var i = 0; i < this.views.length; i++) {
         this.views[i].onRoomStateUpdated(new RoomStateUpdatedEvent(roomID, componentName, value));
