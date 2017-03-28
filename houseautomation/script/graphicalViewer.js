@@ -28,7 +28,7 @@ GraphicalViewer.prototype.context;
 GraphicalViewer.prototype.containerID = "grahpicalViewerContainerDiv";
 GraphicalViewer.prototype.controller;
 GraphicalViewer.prototype.container;
-GraphicalViewer.prototype.houseDimensions = { 'WIDTH': 0.66, 'HEIGHT': 0.4 };
+GraphicalViewer.prototype.houseDimensions = { 'WIDTH': 0.8, 'HEIGHT': 0.6 };
 GraphicalViewer.prototype.drawing = { 'LINEWIDTH': 5 };
 GraphicalViewer.prototype.graphicalViewerRooms;
 
@@ -37,6 +37,10 @@ GraphicalViewer.prototype.receiveInitialData = function (initialData) {
     if (!Array.isArray(initialData)) {
         throw "Invalid parameter received!";
     }
+
+    // Get an array of the user-defined drawing functions for each component from the controller
+    // These functions are responsible for displaying the state of each component
+    var drawingFunctions = this.controller.getComponentGraphicalDrawFunctions();
 
     // Determine the layout of the house
     // We want to draw as square of a house as possible
@@ -63,7 +67,7 @@ GraphicalViewer.prototype.receiveInitialData = function (initialData) {
     this.context.lineWidth = this.drawing.LINEWIDTH;
     this.context.fillStyle = "blue";
 
-    this.context.translate(0, marginY / 2); // Shift everything down by half of the vertical margin
+    this.context.translate(marginX / -2, marginY / 2); // Shift everything down by half of the vertical margin, and left by half the horizontal margin
 
     var roomCounter = 0;
 
@@ -78,8 +82,19 @@ GraphicalViewer.prototype.receiveInitialData = function (initialData) {
             var originY = marginY + ((numTotalFloors - 1 - i) * roomHeight);
 
             // Create a GraphicalViewerRoom object at these coordinates and cause it to fully draw itself
-            this.graphicalViewerRooms.push(new GraphicalViewerRoom(initialData[roomCounter].getName(), originX, originY, roomWidth, roomHeight));
+            this.graphicalViewerRooms.push(new GraphicalViewerRoom(initialData[roomCounter].getName(), originX, originY, roomWidth, roomHeight, drawingFunctions));
             this.graphicalViewerRooms[roomCounter].drawFull(this.context);
+
+            // Now draw the initial state of each component that controls this room
+            var numComponents = initialData[roomCounter].getNumSupportedComponents();
+            var components = initialData[roomCounter].getSupportedComponents();
+
+            for (var k = 0; k < numComponents; k++) {
+                // Get the friendly name of the component
+                var componentName = components[k];
+
+                this.graphicalViewerRooms[roomCounter].drawState(this.context, componentName, initialData[roomCounter].getState(componentName));
+            }
 
             // Increment the roomCounter
             roomCounter++;
@@ -95,8 +110,19 @@ GraphicalViewer.prototype.receiveInitialData = function (initialData) {
         // Only save information about controllable rooms
         if (roomCounter < initialData.length) {
             // Create a GraphicalViewerRoom object at these coordinates and cause it to fully draw itself
-            this.graphicalViewerRooms.push(new GraphicalViewerRoom(initialData[roomCounter].getName(), originX, marginY, roomWidth, roomHeight));
+            this.graphicalViewerRooms.push(new GraphicalViewerRoom(initialData[roomCounter].getName(), originX, marginY, roomWidth, roomHeight, drawingFunctions));
             this.graphicalViewerRooms[roomCounter].drawFull(this.context);
+
+            // Now draw the initial state of each component that controls this room
+            var numComponents = initialData[roomCounter].getNumSupportedComponents();
+            var components = initialData[roomCounter].getSupportedComponents();
+
+            for (var k = 0; k < numComponents; k++) {
+                // Get the friendly name of the component
+                var componentName = components[k];
+
+                this.graphicalViewerRooms[roomCounter].drawState(this.context, componentName, initialData[roomCounter].getState(componentName));
+            }
         }
         // Draw the extra rooms differently
         else {
@@ -110,7 +136,20 @@ GraphicalViewer.prototype.receiveInitialData = function (initialData) {
 };
 
 GraphicalViewer.prototype.onRoomStateUpdated = function (event) {
-    // TODO Implement
+    // Draw the updated state for the specified room and component
+
+    // Depending on the particular state change, we might need to draw more than just the component that changed
+    // e.g. transitioning from curtains closed to curtains open will require that we redraw the light since it was previously hidden
+    //
+    // Since user created components are allowed, it is not possible to guarantee that all such possible transitions will be known
+    // so we will simply always draw all components
+    // This problem could be addressed by creating a hierarchy of dependencies between components, for example, but this is outside
+    // of the scope of this projects
+
+    // Because of the above problem we need to provide the state of the whole room so that it can be correctly rendered
+    var room = this.controller.getRoom(event.roomID);
+
+    this.graphicalViewerRooms[event.roomID].drawAllState(this.context, room);
 };
 
 GraphicalViewer.prototype.show = function () {

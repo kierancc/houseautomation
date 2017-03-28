@@ -31,6 +31,10 @@ DataModel.prototype.parseResponse = function (responseString) {
     }
 };
 
+DataModel.prototype.getRoom = function (roomID) {
+    return this.rooms[roomID];
+};
+
 DataModel.prototype.getRooms = function () {
     return this.rooms;
 };

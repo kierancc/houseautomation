@@ -68,6 +68,72 @@ CurtainComponent.prototype.onRoomStateUpdated = function (roomStateUpdatedEvent)
     return true;
 };
 
+CurtainComponent.prototype.drawGraphicalState = function (context, graphicalRoom, value) {
+    // Curtains are represent as follows:
+    // Open curtains have two arcs on the left and right side of the window, exposing the center of the window
+    // Closed curtains cover the whole window, and have a few interspersed lines to create contour
+
+    // Save original context state
+    var originalLineWidth = context.lineWidth;
+    var originalStrokeStyle = context.strokeStyle;
+    var originalFillStyle = context.fillStyle;
+
+    // Set new state
+    context.lineWidth = 1;
+    context.strokeStyle = "#330033";
+    context.fillStyle = "#660066";
+
+    if (value === true) {
+        // Determine relevant points
+        var topLeftCurtainOriginX = graphicalRoom.windowOriginX;
+        var topLeftCurtainOriginY = graphicalRoom.windowOriginY;
+        var topRightCurtainOriginX = topLeftCurtainOriginX + graphicalRoom.windowWidth;
+        var topRightCurtainOriginY = topLeftCurtainOriginY;
+        var curtainRadius = graphicalRoom.windowHeight * 0.66;
+
+        // Draw the top left curtain
+        context.beginPath();
+        context.arc(topLeftCurtainOriginX, topLeftCurtainOriginY, curtainRadius, 0, Math.PI / 2, false);
+        context.lineTo(topLeftCurtainOriginX, topLeftCurtainOriginY);
+        context.closePath();
+        context.fill();
+        context.stroke();
+
+        // Draw the top right curtain
+        context.beginPath();
+        context.arc(topRightCurtainOriginX, topRightCurtainOriginY, curtainRadius, Math.PI, Math.PI / 2, true);
+        context.lineTo(topRightCurtainOriginX, topRightCurtainOriginY);
+        context.closePath();
+        context.fill();
+        context.stroke();
+    }
+    else {
+        // Determine relevant points
+        var topLeftCurtainOriginX = graphicalRoom.windowOriginX;
+        var topLeftCurtainOriginY = graphicalRoom.windowOriginY;
+
+        // Simply fill a rectangle the size of the window
+        context.fillRect(topLeftCurtainOriginX, topLeftCurtainOriginY, graphicalRoom.windowWidth, graphicalRoom.windowHeight);
+
+        // Draw a few lines for contour
+        for (var i = 1; i <= 5; i++) {
+            var lineOriginX = topLeftCurtainOriginX + (i * graphicalRoom.windowWidth / 6);
+            var lineLength = i % 2 == 0 ? graphicalRoom.windowHeight * 0.8 : graphicalRoom.windowHeight * 0.6;
+
+            context.beginPath();
+            context.moveTo(lineOriginX, topLeftCurtainOriginY);
+            context.lineTo(lineOriginX, topLeftCurtainOriginY + lineLength);
+            context.closePath();
+            context.stroke();
+        }
+    }
+
+    // Restore context state
+    context.lineWidth = originalLineWidth;
+    context.strokeStyle = originalStrokeStyle;
+    context.fillStyle = originalFillStyle;
+};
+
 CurtainComponent.prototype.addControlledRoom = function (roomID) {
     this.controlledRooms.push(roomID);
 };

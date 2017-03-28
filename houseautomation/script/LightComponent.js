@@ -68,6 +68,46 @@ LightComponent.prototype.onRoomStateUpdated = function (roomStateUpdatedEvent) {
     return true;
 };
 
+LightComponent.prototype.drawGraphicalState = function (context, graphicalRoom, value) {
+    // We will represent the state of the light by drawing a simple light bulb descending in the middle of the window
+    // If the light is on, the bulb will be yellow, if the light is off the bulb will be grey
+
+    // Determine the relevant points for drawing the light bulb state
+    var lightWireOriginX = graphicalRoom.windowOriginX + (graphicalRoom.windowWidth / 2);
+    var lightWireOriginY = graphicalRoom.windowOriginY;
+    var lightWireLength = graphicalRoom.windowHeight / 3;
+    var lightBulbRadius = graphicalRoom.windowHeight / 10;
+
+    // Save original context state
+    var originalLineWidth = context.lineWidth;
+    var originalStrokeStyle = context.strokeStyle;
+    var originalFillStyle = context.fillStyle;
+
+    // Set new state
+    context.lineWidth = 1;
+    context.strokeStyle = "black";
+    context.fillStyle = value == true ? "yellow" : "grey"; // Yellow if true, grey if false
+
+    // Draw wire
+    context.beginPath();
+    context.moveTo(lightWireOriginX, lightWireOriginY);
+    context.lineTo(lightWireOriginX, lightWireOriginY + lightWireLength);
+    context.closePath();
+    context.stroke();
+
+    // Draw light bulb sphere
+    context.beginPath();
+    context.arc(lightWireOriginX, lightWireOriginY + lightWireLength + lightBulbRadius, lightBulbRadius, 0, 2 * Math.PI, false);
+    context.closePath();
+    context.fill();
+    context.stroke();
+
+    // Restore context state
+    context.lineWidth = originalLineWidth;
+    context.strokeStyle = originalStrokeStyle;
+    context.fillStyle = originalFillStyle;
+};
+
 LightComponent.prototype.addControlledRoom = function (roomID) {
     this.controlledRooms.push(roomID);
 };

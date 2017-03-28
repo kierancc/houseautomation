@@ -44,6 +44,9 @@
             // You must ensure that your new component implements all of the necessary functions
             // and has a unique friendly name
             // (see documentation)
+            // NOTE: The order that the components are added here is the order that they are rendered
+            //       in the graphical viewer, so be careful about where you insert your component.
+            //       It doesn't make sense to first draw curtains, and then a light bulb on top, for example
             houseAutomation.registerComponent(new LightComponent());
             houseAutomation.registerComponent(new CurtainComponent());
             houseAutomation.registerComponent(new TemperatureComponent());

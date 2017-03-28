@@ -62,6 +62,23 @@ TemperatureComponent.prototype.onRoomStateUpdated = function (roomStateUpdatedEv
     return true;
 };
 
+TemperatureComponent.prototype.drawGraphicalState = function (context, graphicalRoom, value) {
+    var originalFont = context.font;
+    var originalFillStyle = context.fillStyle;
+
+    context.font = "12px Arial";
+    context.fillStyle = "black";
+
+    // Append degree symbol
+    var outputValue = value + "°";
+
+    // Draw the current temperature beside the window
+    context.fillText(outputValue, graphicalRoom.windowOriginX + graphicalRoom.windowWidth + 6, graphicalRoom.windowOriginY + 12);
+
+    context.font = originalFont;
+    context.fillStyle = originalFillStyle;
+};
+
 TemperatureComponent.prototype.addControlledRoom = function (roomID) {
     this.controlledRooms.push(roomID);
 };

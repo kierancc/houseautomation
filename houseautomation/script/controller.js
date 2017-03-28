@@ -19,6 +19,8 @@ Controller.prototype.registerView = function (view) {
 };
 
 Controller.prototype.registerComponent = function (component) {
+    // TODO Check that all required functions are provided in the view object parameter
+
     // Ensure that the friendly name of the component is unique
     if (this.components[component.getFriendlyName()] !== undefined) {
         throw "Duplicate Component : " + component.getFriendlyName();
@@ -38,15 +40,17 @@ Controller.prototype.updateRoomState = function (roomID, componentName, value) {
     // Update the data model
     this.dataModel.updateRoomState(roomID, componentName, value);
 
-    // Trigger a RoomStateUpdatedEvent for all rgistered Components
-    for (var i = 0; i < this.components.length; i++) {
-        this.components[i].onRoomStateUpdated(new RoomStateUpdatedEvent(roomID, componentName, value));
-    }
+    // Trigger a RoomStateUpdatedEvent for the relevant component
+    this.components[componentName].onRoomStateUpdated(new RoomStateUpdatedEvent(roomID, componentName, value));
 
     // Trigger a RoomStateUpdatedEvent for all registered views
     for (var i = 0; i < this.views.length; i++) {
         this.views[i].onRoomStateUpdated(new RoomStateUpdatedEvent(roomID, componentName, value));
     }
+};
+
+Controller.prototype.getRoom = function (roomID) {
+    return this.dataModel.getRoom(roomID);
 };
 
 Controller.prototype.showDefaultView = function () {
@@ -70,4 +74,15 @@ Controller.prototype.showControlPanel = function () {
 
 Controller.prototype.createComponentControlPanelItem = function (roomID, componentName, initialValue) {
     return this.components[componentName].createControlPanelItem(roomID, initialValue);
+};
+
+Controller.prototype.getComponentGraphicalDrawFunctions = function () {
+    var context = this;
+
+    var functions = [];
+    Object.keys(this.components).forEach(function (key) {
+        functions[key] = context.components[key].drawGraphicalState;
+    });
+        
+    return functions;
 };
