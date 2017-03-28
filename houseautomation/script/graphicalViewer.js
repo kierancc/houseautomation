@@ -1,4 +1,5 @@
-﻿function GraphicalViewer(controller) {
+﻿// Constructor
+function GraphicalViewer(controller) {
     this.controller = controller;
     this.graphicalViewerRooms = [];
 
@@ -33,6 +34,8 @@ GraphicalViewer.prototype.drawing = { 'LINEWIDTH': 5, 'WALLCOLOUR': "#3399FF", '
 GraphicalViewer.prototype.graphicalViewerRooms;
 
 // Functions
+
+// Function that is called by the controller when it is ready to send initial state data to this object
 GraphicalViewer.prototype.receiveInitialData = function (initialData) {
     if (!Array.isArray(initialData)) {
         throw "Invalid parameter received!";
@@ -72,7 +75,7 @@ GraphicalViewer.prototype.receiveInitialData = function (initialData) {
 
     this.context.translate(0, marginY / 2); // Shift everything down by half of the vertical margin
 
-    var roomCounter = 0;
+    var roomCounter = 0; // Track the GraphicalViewerRoom objects created
 
     // Draw the full floors
     for (var i = 0; i < numFullFloors; i++) {
@@ -96,6 +99,7 @@ GraphicalViewer.prototype.receiveInitialData = function (initialData) {
                 // Get the friendly name of the component
                 var componentName = components[k];
 
+                // Draw the state
                 this.graphicalViewerRooms[roomCounter].drawState(this.context, componentName, initialData[roomCounter].getState(componentName));
             }
 
@@ -124,6 +128,7 @@ GraphicalViewer.prototype.receiveInitialData = function (initialData) {
                 // Get the friendly name of the component
                 var componentName = components[k];
 
+                // Draw the state
                 this.graphicalViewerRooms[roomCounter].drawState(this.context, componentName, initialData[roomCounter].getState(componentName));
             }
         }
@@ -159,6 +164,7 @@ GraphicalViewer.prototype.receiveInitialData = function (initialData) {
     this.context.fillStyle = originalFillStyle;
 };
 
+// Event handler for roomStateUpdated event
 GraphicalViewer.prototype.onRoomStateUpdated = function (event) {
     // Draw the updated state for the specified room and component
 
@@ -176,10 +182,12 @@ GraphicalViewer.prototype.onRoomStateUpdated = function (event) {
     this.graphicalViewerRooms[event.roomID].drawAllState(this.context, room);
 };
 
+// Shows the GraphicalViewer
 GraphicalViewer.prototype.show = function () {
     $(this.container).show();
 };
 
+// Hides the GraphicalViewer
 GraphicalViewer.prototype.hide = function () {
     $(this.container).hide();
 };

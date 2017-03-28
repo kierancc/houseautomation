@@ -1,4 +1,5 @@
-﻿function CurtainComponent() {
+﻿// Constructor
+function CurtainComponent() {
     this.controlledRooms = [];
 }
 
@@ -8,10 +9,16 @@ CurtainComponent.prototype.controlledRooms;
 
 // Functions
 
+// Function that returns the friendly name of this Component
 CurtainComponent.prototype.getFriendlyName = function () {
     return this.friendlyName;
 };
 
+// Function called by the controller to create a control panel item for this component for a given room
+// The control panel item must clearly indicate to the user what it controls (e.g. "Light") and provide
+// a means for this value to be changed.  The control must also call the houseAutomation.updateRoomState(...)
+// function with the new value if it is changed by the user
+// This function returns a div, which wraps the control
 CurtainComponent.prototype.createControlPanelItem = function (roomID, initialValue) {
     // Create a new div to hold the ControlPanelItem
     var itemDiv = document.createElement("div");
@@ -31,7 +38,7 @@ CurtainComponent.prototype.createControlPanelItem = function (roomID, initialVal
 
     var item = document.createElement("div");
     item.id = "ControlPanelItemRoom" + roomID + "Component" + this.friendlyName;
-    item.className = "toggleDiv";
+    item.className = "toggleDiv"; // Style the control appropriately
 
     // Save the identifying data to this element for consumption in any event handlers
     $(item).data("roomID", roomID);
@@ -49,6 +56,7 @@ CurtainComponent.prototype.createControlPanelItem = function (roomID, initialVal
             var roomID = $(this).data("roomID");
             var componentName = $(this).data("componentName");
 
+            // Update the system state
             houseAutomation.updateRoomState(roomID, componentName, updatedState);
         }
     });
@@ -60,6 +68,7 @@ CurtainComponent.prototype.createControlPanelItem = function (roomID, initialVal
     return itemDiv;
 };
 
+// Event handler for roomStateUpdated event
 CurtainComponent.prototype.onRoomStateUpdated = function (roomStateUpdatedEvent) {
     // Here in a real automation system we would actually cause the state of the room to change
     // e.g. by actually turning on or off a heater, or physically opening or closing the curtains using a motor
@@ -68,9 +77,11 @@ CurtainComponent.prototype.onRoomStateUpdated = function (roomStateUpdatedEvent)
     return true;
 };
 
+// Function called by the GraphicalViewer to draw a graphical representation of the current state of the room
+// for this Component
 CurtainComponent.prototype.drawGraphicalState = function (context, graphicalRoom, value) {
-    // Curtains are represent as follows:
-    // Open curtains have two arcs on the left and right side of the window, exposing the center of the window
+    // Curtains are represented as follows:
+    // Open curtains have two arcs on the top left and top right side of the window, exposing the center of the window
     // Closed curtains cover the whole window, and have a few interspersed lines to create contour
 
     // Save original context state
@@ -134,6 +145,7 @@ CurtainComponent.prototype.drawGraphicalState = function (context, graphicalRoom
     context.fillStyle = originalFillStyle;
 };
 
+// Function called to notify this Component of a room that it can control
 CurtainComponent.prototype.addControlledRoom = function (roomID) {
     this.controlledRooms.push(roomID);
 };

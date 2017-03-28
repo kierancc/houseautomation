@@ -1,4 +1,6 @@
-﻿function ControlPanel(controller) {
+﻿// Constructor
+// Takes a reference to the controller object
+function ControlPanel(controller) {
     this.controller = controller;
 
     // Create the containing DIV for this control and save it
@@ -16,6 +18,8 @@ ControlPanel.prototype.controller;
 ControlPanel.prototype.container;
 
 // Functions
+
+// Function that is called by the controller when it is ready to send initial state data to this ControlPanel
 ControlPanel.prototype.receiveInitialData = function (initialData) {
     if (!Array.isArray(initialData)) {
         throw "Invalid parameter received!";
@@ -23,9 +27,11 @@ ControlPanel.prototype.receiveInitialData = function (initialData) {
 
     // Create ControlPanelItems for each room
     for (var i = 0; i < initialData.length; i++) {
+        // Create containing div
         var roomDiv = document.createElement("div");
         roomDiv.className = "roomDiv";
 
+        // Create the header
         var roomHeader = document.createElement("p");
         roomHeader.className = "controlPanelRoomHeader";
         roomHeader.innerText = initialData[i].getName();
@@ -40,19 +46,22 @@ ControlPanel.prototype.receiveInitialData = function (initialData) {
             // Get the friendly name of the component
             var componentName = components[j];
 
+            // Call the controller to delegate the creation of the control panel item to the appropriate component
             var item = this.controller.createComponentControlPanelItem(i, componentName, initialData[i].getState(componentName));
             roomDiv.appendChild(item);
         }
-                
+        
         this.container.appendChild(roomDiv);
     }
 
 };
 
+// Shows the ControlPanel
 ControlPanel.prototype.show = function () {
     $(this.container).show();
 };
 
+// Hides the ControlPanel
 ControlPanel.prototype.hide = function () {
     $(this.container).hide();
 };
