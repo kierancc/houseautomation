@@ -1,9 +1,11 @@
 ﻿// Use a Javascript closure to encapsulate the houseAutomation object
 // so that its state is protected from other scripts
+// This is the "main program" used by consumers of this houseAutomation project
+// It exposes functions to initialize and start the system, as well as register custom Components
 var houseAutomation = (function () {
     // Private member variables
 
-    // URL used to access  data from the server
+    // URL used to access data from the server
     // (really just a .json file for this exercise)
     var DATA_SOURCE_URL = "../default.json";
 
@@ -36,6 +38,7 @@ var houseAutomation = (function () {
     };
 
     // This function initializes the default views
+    // Note that the first view added is considered to be the "default" view
     var initDefaultViews = function () {
         // Add the GraphicalViewer
         controller.registerView(new GraphicalViewer(controller));
@@ -100,7 +103,7 @@ var houseAutomation = (function () {
             controller.showControlPanel();
         },
 
-        // This function allows a ControlPanel component to change the state of a room
+        // This function allows a ControlPanelItem to change the state of a room
         updateRoomState: function (roomID, componentName, value) {
             controller.updateRoomState(roomID, componentName, value);
         }

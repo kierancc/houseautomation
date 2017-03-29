@@ -1,4 +1,5 @@
-﻿function TextViewer(controller) {
+﻿// Constructor
+function TextViewer(controller) {
     this.controller = controller;
 
     // Create the containing DIV for this control and save it
@@ -20,8 +21,7 @@ TextViewer.prototype.mutableFields;
 
 // Functions
 
-// receiveInitialData : Required function that is called by the controller to provide this view with the initial data
-// @param initialData this will be an array of Room objects
+// Function that is called by the controller when it is ready to send initial state data to this object
 TextViewer.prototype.receiveInitialData = function (initialData) {
     if (!Array.isArray(initialData)) {
         throw "Invalid parameter received!";
@@ -50,16 +50,19 @@ TextViewer.prototype.receiveInitialData = function (initialData) {
             // Get the friendly name of the component
             var componentName = components[j];
 
+            // Create the label for the component
             var stateLabel = document.createElement("span");
             stateLabel.innerText = componentName + " state: ";
             roomDiv.appendChild(stateLabel);
 
+            // Create the field to display the state
             var componentState = document.createElement("span");
             componentState.id = "room" + i + componentName + "State";
             componentState.innerText = initialData[i].getState(componentName);
             roomDiv.appendChild(componentState);
             roomDiv.appendChild(document.createElement("br"));
 
+            // Save a reference to this field so that it can be easily updated
             this.mutableFields[i][componentName] = componentState;
         }
 
@@ -67,15 +70,18 @@ TextViewer.prototype.receiveInitialData = function (initialData) {
     }
 };
 
+// Event handler for roomStateUpdated event
 TextViewer.prototype.onRoomStateUpdated = function (event) {
-    // Update the field's inner text
+    // Update the field's inner text to the new value
     this.mutableFields[event.roomID][event.componentName].innerText = event.value;
 };
 
+// Shows the TextViewer
 TextViewer.prototype.show = function () {
     $(this.container).show();
 };
 
+// Hides the TextViewer
 TextViewer.prototype.hide = function () {
     $(this.container).hide();
 };

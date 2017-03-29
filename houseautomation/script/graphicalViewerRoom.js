@@ -1,4 +1,5 @@
-﻿function GraphicalViewerRoom(name, originX, originY, width, height, drawingFunctions) {
+﻿// Constructor
+function GraphicalViewerRoom(name, originX, originY, width, height, drawingFunctions) {
     this.name = name;
     this.originX = originX;
     this.originY = originY;
@@ -25,11 +26,14 @@ GraphicalViewerRoom.prototype.windowOriginX;
 GraphicalViewerRoom.prototype.windowOriginY;
 GraphicalViewerRoom.prototype.windowWidth;
 GraphicalViewerRoom.prototype.windowHeight;
-GraphicalViewerRoom.prototype.windowSize = 0.66;
+GraphicalViewerRoom.prototype.windowSize = 0.66; // Make the window 2/3 of the room size
 GraphicalViewerRoom.prototype.windowStrokeWidth = 3;
 GraphicalViewerRoom.prototype.componentDrawingFunctions;
 
 // Functions
+
+// Function called to fully draw the room, its window and its name
+// Note that this function does not draw any state representation
 GraphicalViewerRoom.prototype.drawFull = function (context) {
     // Draw outline of room and fill with the default wall colour (already set)
     context.fillRect(this.originX, this.originY, this.width, this.height);
@@ -42,6 +46,7 @@ GraphicalViewerRoom.prototype.drawFull = function (context) {
     this.drawRoomName(context);
 };
 
+// Function that draws only the window of the room
 GraphicalViewerRoom.prototype.drawWindow = function (context) {
     var originalLineWidth = context.lineWidth;
     context.lineWidth = this.windowStrokeWidth;
@@ -52,6 +57,7 @@ GraphicalViewerRoom.prototype.drawWindow = function (context) {
     context.lineWidth = originalLineWidth;
 };
 
+// Function that draws the room's name
 GraphicalViewerRoom.prototype.drawRoomName = function (context) {
     var originalFont = context.font;
     var originalFillStyle = context.fillStyle;
@@ -66,16 +72,19 @@ GraphicalViewerRoom.prototype.drawRoomName = function (context) {
     context.fillStyle = originalFillStyle;
 };
 
+// Function that clears the whole room rectangle
 GraphicalViewerRoom.prototype.clearFull = function (context) {
     context.clearRect(this.originX, this.originY, this.width, this.height);
 };
 
+// Function called to draw the represenation of state for a specific component
 GraphicalViewerRoom.prototype.drawState = function (context, componentName, value) {
     // Draw the state for the provided component
     this.componentDrawingFunctions[componentName](context, this, value);
     
 };
 
+// Function called to draw the represenation of state for all components
 GraphicalViewerRoom.prototype.drawAllState = function (context, room) {
     // Depending on the particular state change, we might need to draw more than just the component that changed
     // e.g. transitioning from curtains closed to curtains open will require that we redraw the light since it was previously hidden

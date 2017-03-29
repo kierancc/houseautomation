@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Javascript House Automation Project</title>
+    <!--CSS Includes-->
     <link rel="stylesheet" type="text/css" href="style/index.css" />
     <link rel="stylesheet" type="text/css" href="style/controlPanel.css" />
     <link rel="stylesheet" type="text/css" href="style/graphicalViewer.css" />
@@ -9,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="style/jquery-ui.min.css" />
 </head>
 <body>
-    <!--Placeholder DIV elements-->
+    <!--Placeholder elements-->
     <div id="viewerParentDiv">
     </div>
     <br />
@@ -36,14 +37,16 @@
     <script src="script/graphicalViewer.js"></script>
     <script src="script/graphicalViewerRoom.js"></script>
 
-    <!--Start the houseAutomation script-->
+    <!--Start the houseAutomation system-->
     <script>
         $(document).ready(function () {
             // Register all automation components
+
             // To add a new component, simply append it to the bottom of this list
             // You must ensure that your new component implements all of the necessary functions
             // and has a unique friendly name
             // (see documentation)
+
             // NOTE: The order that the components are added here is the order that they are rendered
             //       in the graphical viewer, so be careful about where you insert your component.
             //       It doesn't make sense to first draw curtains, and then a light bulb on top, for example

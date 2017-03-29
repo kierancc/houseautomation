@@ -1,4 +1,5 @@
-﻿function TemperatureComponent() {
+﻿// Constructor
+function TemperatureComponent() {
     this.controlledRooms = [];
 }
 
@@ -8,10 +9,16 @@ TemperatureComponent.prototype.controlledRooms;
 
 // Functions
 
+// Function that returns the friendly name of this Component
 TemperatureComponent.prototype.getFriendlyName = function () {
     return this.friendlyName;
 };
 
+// Function called by the controller to create a control panel item for this component for a given room
+// The control panel item must clearly indicate to the user what it controls (e.g. "Light") and provide
+// a means for this value to be changed.  The control must also call the houseAutomation.updateRoomState(...)
+// function with the new value if it is changed by the user
+// This function returns a div, which wraps the control
 TemperatureComponent.prototype.createControlPanelItem = function (roomID, initialValue) {
     // Create a new div to hold the ControlPanelItem
     var itemDiv = document.createElement("div");
@@ -46,6 +53,7 @@ TemperatureComponent.prototype.createControlPanelItem = function (roomID, initia
             var roomID = $(this).data("roomID");
             var componentName = $(this).data("componentName");
 
+            // Update the system state
             houseAutomation.updateRoomState(roomID, componentName, this.value);
         }
     });
@@ -54,6 +62,7 @@ TemperatureComponent.prototype.createControlPanelItem = function (roomID, initia
     return itemDiv;
 };
 
+// Event handler for roomStateUpdated event
 TemperatureComponent.prototype.onRoomStateUpdated = function (roomStateUpdatedEvent) {
     // Here in a real automation system we would actually cause the state of the room to change
     // e.g. by actually turning on or off a heater, or physically opening or closing the curtains using a motor
@@ -62,6 +71,8 @@ TemperatureComponent.prototype.onRoomStateUpdated = function (roomStateUpdatedEv
     return true;
 };
 
+// Function called by the GraphicalViewer to draw a graphical representation of the current state of the room
+// for this Component
 TemperatureComponent.prototype.drawGraphicalState = function (context, graphicalRoom, value) {
     var originalFont = context.font;
     var originalFillStyle = context.fillStyle;
@@ -79,6 +90,7 @@ TemperatureComponent.prototype.drawGraphicalState = function (context, graphical
     context.fillStyle = originalFillStyle;
 };
 
+// Function called to notify this Component of a room that it can control
 TemperatureComponent.prototype.addControlledRoom = function (roomID) {
     this.controlledRooms.push(roomID);
 };

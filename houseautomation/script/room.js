@@ -1,4 +1,5 @@
-﻿function Room(name, initialState) {
+﻿// Constructor
+function Room(name, initialState) {
     this.name = name;
     this.state = new Object();
 
@@ -14,10 +15,13 @@ Room.prototype.name;
 Room.prototype.state;
 
 // Functions
+
+// Function that returns the Room's name
 Room.prototype.getName = function () {
     return this.name;
 };
 
+// Function that returns the current state of the specified Component
 Room.prototype.getState = function (componentName) {
     if (this.state[componentName] === undefined) {
         throw "Invalid component name : " + componentName;
@@ -26,6 +30,7 @@ Room.prototype.getState = function (componentName) {
     return this.state[componentName];
 };
 
+// Function that sets the current state of the specified Component
 Room.prototype.setState = function (componentName, value) {
     if (this.state[componentName] === undefined) {
         throw "Invalid component name : " + componentName;
@@ -34,10 +39,12 @@ Room.prototype.setState = function (componentName, value) {
     this.state[componentName] = value;
 };
 
+// Function that returns the number of Commponents that control this room
 Room.prototype.getNumSupportedComponents = function () {
     return Object.keys(this.state).length;
 };
 
+// Function that returns the names of the Components that control this room
 Room.prototype.getSupportedComponents = function () {
     return Object.keys(this.state);
 };

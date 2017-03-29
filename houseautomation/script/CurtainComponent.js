@@ -129,8 +129,11 @@ CurtainComponent.prototype.drawGraphicalState = function (context, graphicalRoom
         // Draw a few lines for contour
         for (var i = 1; i <= 5; i++) {
             var lineOriginX = topLeftCurtainOriginX + (i * graphicalRoom.windowWidth / 6);
+
+            // Alternate the length of the line
             var lineLength = i % 2 == 0 ? graphicalRoom.windowHeight * 0.8 : graphicalRoom.windowHeight * 0.6;
 
+            // Draw the line
             context.beginPath();
             context.moveTo(lineOriginX, topLeftCurtainOriginY);
             context.lineTo(lineOriginX, topLeftCurtainOriginY + lineLength);
