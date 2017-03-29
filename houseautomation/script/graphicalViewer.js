@@ -60,7 +60,9 @@ GraphicalViewer.prototype.receiveInitialData = function (initialData) {
     var roomsPerFloor = Math.ceil(sqrtRooms);
     var numFullFloors = Math.floor(numRooms / roomsPerFloor);
     var numRoomsLastFloor = numRooms % roomsPerFloor;
-    var numTotalFloors = numFullFloors + 1;
+
+    // Determine the total number of floors. If the number of rooms is a perfect square, then we do not need an extra floor
+    var numTotalFloors = numRoomsLastFloor === 0 ? numFullFloors : numFullFloors + 1;
 
     // Now determine and save constants useful for drawing now that we know the layout of the house
     var marginX = (this.canvas.width - this.canvas.width * this.houseDimensions.WIDTH) / 2;
@@ -114,38 +116,40 @@ GraphicalViewer.prototype.receiveInitialData = function (initialData) {
         }
     }
 
-    // Draw the last (top) floor
+    // Draw the last (top) floor if necessary
     // Note that here we will draw any extra "rooms" that will not change state but need to be there
     // to visually complete the floor
-    for (var i = 0; i < roomsPerFloor; i++) {
-        var originX = marginX + (i * roomWidth);
+    if (roomCounter < initialData.length) {
+        for (var i = 0; i < roomsPerFloor; i++) {
+            var originX = marginX + (i * roomWidth);
 
-        // Only save information about controllable rooms
-        if (roomCounter < initialData.length) {
-            // Create a GraphicalViewerRoom object at these coordinates and cause it to fully draw itself
-            this.graphicalViewerRooms.push(new GraphicalViewerRoom(initialData[roomCounter].getName(), originX, marginY, roomWidth, roomHeight, drawingFunctions));
-            this.graphicalViewerRooms[roomCounter].drawFull(this.context);
+            // Only save information about controllable rooms
+            if (roomCounter < initialData.length) {
+                // Create a GraphicalViewerRoom object at these coordinates and cause it to fully draw itself
+                this.graphicalViewerRooms.push(new GraphicalViewerRoom(initialData[roomCounter].getName(), originX, marginY, roomWidth, roomHeight, drawingFunctions));
+                this.graphicalViewerRooms[roomCounter].drawFull(this.context);
 
-            // Now draw the initial state of each component that controls this room
-            var numComponents = initialData[roomCounter].getNumSupportedComponents();
-            var components = initialData[roomCounter].getSupportedComponents();
+                // Now draw the initial state of each component that controls this room
+                var numComponents = initialData[roomCounter].getNumSupportedComponents();
+                var components = initialData[roomCounter].getSupportedComponents();
 
-            for (var k = 0; k < numComponents; k++) {
-                // Get the friendly name of the component
-                var componentName = components[k];
+                for (var k = 0; k < numComponents; k++) {
+                    // Get the friendly name of the component
+                    var componentName = components[k];
 
-                // Draw the state
-                this.graphicalViewerRooms[roomCounter].drawState(this.context, componentName, initialData[roomCounter].getState(componentName));
+                    // Draw the state
+                    this.graphicalViewerRooms[roomCounter].drawState(this.context, componentName, initialData[roomCounter].getState(componentName));
+                }
             }
-        }
-        // Draw the extra rooms differently
-        else {
-            this.context.fillRect(originX, marginY, roomWidth, roomHeight);
-            this.context.strokeRect(originX, marginY, roomWidth, roomHeight);
-        }
+            // Draw the extra rooms differently
+            else {
+                this.context.fillRect(originX, marginY, roomWidth, roomHeight);
+                this.context.strokeRect(originX, marginY, roomWidth, roomHeight);
+            }
 
-        // Increment the roomCounter
-        roomCounter++;
+            // Increment the roomCounter
+            roomCounter++;
+        }
     }
 
     // Finally draw the roof
