@@ -3,4 +3,6 @@
     border-style: solid;
     border-color: black;
     background-color: white;
+    margin: auto;
+    display: block;
 }
