@@ -18,6 +18,9 @@ var houseAutomation = (function () {
     // Automation components
     var components = [];
 
+    // User provided vivews
+    var userViews = [];
+
     // Private functions
 
     // This function loads the initial data
@@ -37,27 +40,29 @@ var houseAutomation = (function () {
         }
     };
 
-    // This function initializes the default views
-    // Note that the first view added is considered to be the "default" view
-    var initDefaultViews = function () {
+    // This function initializes the default view
+    var initDefaultView = function () {
         // Add the GraphicalViewer
-        controller.registerView(new GraphicalViewer(controller));
-
-        // Add the TextViewer
-        controller.registerView(new TextViewer(controller));
-
-        // Add the options to the viewer selector
-        // Ensure that these are added in the same order as the views were registered above
+        var graphicalViewer = new GraphicalViewer(controller);
+        controller.registerView(graphicalViewer);
 
         // Add a viewer selection option for the GraphicalViewer
         var graphicalViewerOption = document.createElement("option");
-        graphicalViewerOption.text = "Graphical Viewer";
+        graphicalViewerOption.text = graphicalViewer.getFriendlyName();
         $('#viewerSelector').append(graphicalViewerOption);
+    };
 
-        // Add a viewer selection option for the TextViewer
-        var textViewerOption = document.createElement("option");
-        textViewerOption.text = "Text Viewer";
-        $('#viewerSelector').append(textViewerOption);
+    // This function initializes any views provided by the user
+    var initUserViews = function () {
+        for (var i = 0; i < userViews.length; i++) {
+            // Add the user view
+            controller.registerView(userViews[i]);
+
+            // Add a viewer selection option for the user view
+            var userViewerOption = document.createElement("option");
+            userViewerOption.text = userViews[i].getFriendlyName();
+            $('#viewerSelector').append(userViewerOption);
+        }
     };
 
     // This function initializes the control panel
@@ -81,10 +86,16 @@ var houseAutomation = (function () {
 
         // Public functions
 
-        // This function registers any Component objects that will be used in the house automation system
+        // This function registers any Component objects added by the user that will be used in the house automation system
         registerComponent: function (component) {
             // Save the component
             components.push(component);
+        },
+
+        // This function registers any View objects added by the user that will be used in the house automation system
+        registerView: function (view) {
+            // Save the view
+            userViews.push(view);
         },
 
         // This function initializes state but does not change the view
@@ -92,7 +103,8 @@ var houseAutomation = (function () {
             loadInitialData();
             initController();
             initComponents();
-            initDefaultViews();
+            initDefaultView();
+            initUserViews();
             initControlPanel();
             initViewSelector();
         },

@@ -1,7 +1,5 @@
 ﻿// Constructor
-function TextViewer(controller) {
-    this.controller = controller;
-
+function TextViewer() {
     // Create the containing DIV for this control and save it
     this.container = document.createElement("div");
     this.container.id = this.containerID;
@@ -15,11 +13,16 @@ function TextViewer(controller) {
 
 // Member variables
 TextViewer.prototype.containerID = "textViewerContainerDiv";
-TextViewer.prototype.controller;
 TextViewer.prototype.container;
+TextViewer.prototype.friendlyName = "Text Viewer";
 TextViewer.prototype.mutableFields;
 
 // Functions
+
+// Function that returns the friendly name of the viewer
+TextViewer.prototype.getFriendlyName = function () {
+    return this.friendlyName;
+};
 
 // Function that is called by the controller when it is ready to send initial state data to this object
 TextViewer.prototype.receiveInitialData = function (initialData) {

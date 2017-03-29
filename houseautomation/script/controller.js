@@ -21,6 +21,9 @@ Controller.prototype.registerView = function (view) {
     if (typeof view.receiveInitialData !== "function") {
         throw "Function 'receiveInitialData' not implemented by provided view";
     }
+    else if (typeof view.getFriendlyName !== "function") {
+        throw "Function 'getFriendlyName' not implemented by provided view";
+    }
     else if (typeof view.onRoomStateUpdated !== "function") {
         throw "Function 'onRoomStateUpdated' not implemented by provided view";
     }

@@ -54,6 +54,13 @@
             houseAutomation.registerComponent(new CurtainComponent());
             houseAutomation.registerComponent(new TemperatureComponent());
 
+            // Register all user provided views
+            // To add a new view, simply append it to the bottom of this list
+            // You must ensure that your new view implements all of the necessary functions
+            // and has a unique friendly name
+            // (see documentation)
+            houseAutomation.registerView(new TextViewer());
+
             // Initialize the system
             houseAutomation.initialize();
 

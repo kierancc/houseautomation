@@ -29,11 +29,17 @@ GraphicalViewer.prototype.context;
 GraphicalViewer.prototype.containerID = "grahpicalViewerContainerDiv";
 GraphicalViewer.prototype.controller;
 GraphicalViewer.prototype.container;
+GraphicalViewer.prototype.friendlyName = "Graphical Viewer";
 GraphicalViewer.prototype.houseDimensions = { 'WIDTH': 0.8, 'HEIGHT': 0.6 };
 GraphicalViewer.prototype.drawing = { 'LINEWIDTH': 5, 'WALLCOLOUR': "#3399FF", 'LINECOLOUR' : "black", 'ROOFCOLOUR' : "#330D00" };
 GraphicalViewer.prototype.graphicalViewerRooms;
 
 // Functions
+
+// Function that returns the friendly name of the viewer
+GraphicalViewer.prototype.getFriendlyName = function () {
+    return this.friendlyName;
+};
 
 // Function that is called by the controller when it is ready to send initial state data to this object
 GraphicalViewer.prototype.receiveInitialData = function (initialData) {
