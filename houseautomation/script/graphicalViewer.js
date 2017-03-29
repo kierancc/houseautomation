@@ -61,7 +61,7 @@ GraphicalViewer.prototype.receiveInitialData = function (initialData) {
     var numFullFloors = Math.floor(numRooms / roomsPerFloor);
     var numRoomsLastFloor = numRooms % roomsPerFloor;
 
-    // Determine the total number of floors. If the number of rooms is a perfect square, then we do not need an extra floor
+    // Determine the total number of floors. It is possible that all floors have the same number of rooms
     var numTotalFloors = numRoomsLastFloor === 0 ? numFullFloors : numFullFloors + 1;
 
     // Now determine and save constants useful for drawing now that we know the layout of the house
