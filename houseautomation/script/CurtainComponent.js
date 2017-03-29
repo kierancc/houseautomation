@@ -131,7 +131,7 @@ CurtainComponent.prototype.drawGraphicalState = function (context, graphicalRoom
             var lineOriginX = topLeftCurtainOriginX + (i * graphicalRoom.windowWidth / 6);
 
             // Alternate the length of the line
-            var lineLength = i % 2 == 0 ? graphicalRoom.windowHeight * 0.8 : graphicalRoom.windowHeight * 0.6;
+            var lineLength = i % 2 === 0 ? graphicalRoom.windowHeight * 0.8 : graphicalRoom.windowHeight * 0.6;
 
             // Draw the line
             context.beginPath();
